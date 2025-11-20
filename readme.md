@@ -21,6 +21,6 @@ Make sure Docker is installed, then run:
 
 ```bash
 docker-compose up -d
-
+```
 ```browser
 http://localhost:9999/wp-content/plugins/wp-file-manager-unsafe/Adrie-file-manager.php
