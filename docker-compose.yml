@@ -1,0 +1,31 @@
+version: '3.7'
+
+services:
+  wordpress:
+    image: wordpress:5.5
+    container_name: wp-vuln
+    restart: always
+    ports:
+      - "9999:80"
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: wpuser
+      WORDPRESS_DB_PASSWORD: wppass
+      WORDPRESS_DB_NAME: wpdb
+    volumes:
+      - ./wp-content:/var/www/html/wp-content
+
+  db:
+    image: mysql:5.7
+    container_name: wp-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: wpdb
+      MYSQL_USER: wpuser
+      MYSQL_PASSWORD: wppass
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes:
+  db_data:
