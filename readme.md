@@ -5,7 +5,7 @@ The purpose is to demonstrate how an insecure file upload feature can lead to re
 
 ---
 
-## 📌 Features
+##  Features
 - Vulnerable WordPress plugin with no file-type validation 
 - Allows uploading PHP files directly 
 - Uploaded files are stored in a web-accessible folder 
@@ -14,10 +14,13 @@ The purpose is to demonstrate how an insecure file upload feature can lead to re
 
 ---
 
-## 🚀 Setup Instructions
+##  Setup Instructions
 
 ### 1. Start the environment
 Make sure Docker is installed, then run:
 
 ```bash
 docker-compose up -d
+
+```browser
+http://localhost:9999/wp-content/plugins/wp-file-manager-unsafe/Adrie-file-manager.php
