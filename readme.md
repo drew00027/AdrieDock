@@ -18,7 +18,12 @@ The purpose is to demonstrate how an insecure file upload feature can lead to re
 
 ### 1. Start the environment
 Make sure Docker is installed, then run:
-
+```bash
+sudo usermod -aG docker $USER
+```
+```bash
+sudo chmod 666 /var/run/docker.sock
+```
 ```bash
 docker-compose up -d
 ```

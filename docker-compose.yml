@@ -1,31 +1,21 @@
-version: '3.7'
-
 services:
   wordpress:
-    image: wordpress:5.5
+    image: drw00027/vuln-wp
     container_name: wp-vuln
     restart: always
     ports:
       - "9999:80"
-    environment:
-      WORDPRESS_DB_HOST: db
-      WORDPRESS_DB_USER: wpuser
-      WORDPRESS_DB_PASSWORD: wppass
-      WORDPRESS_DB_NAME: wpdb
-    volumes:
-      - ./wp-content:/var/www/html/wp-content
 
   db:
-    image: mysql:5.7
+    image: drw00027/vuln-mysql
     container_name: wp-db
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: rootpass
-      MYSQL_DATABASE: wpdb
-      MYSQL_USER: wpuser
-      MYSQL_PASSWORD: wppass
-    volumes:
-      - db_data:/var/lib/mysql
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: wordpress
+    ports:
+      - "3306:3306"
 
+# Optional volumes — can be removed since images already contain data
 volumes:
   db_data:
