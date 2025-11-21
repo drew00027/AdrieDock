@@ -34,7 +34,7 @@ A simple Python script that uploads a PHP web shell to vulnerable WordPress inst
 
 ## Usage
 ```bash
-python3 exploit.py --url http://target.com --file shell.php
+python3 script.py --url http://target.com --file payload.php
 ```
 
 ## How It Works
@@ -53,7 +53,7 @@ pip install requests
 
 ## Example
 ```bash
-python3 exploit.py --url http://localhost:9999 --file payload.php
+python3 script.py --url http://localhost:9999 --file payload.php
 ```
 
 ## Disclaimer
