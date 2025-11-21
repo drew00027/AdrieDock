@@ -34,7 +34,7 @@ A simple Python script that uploads a PHP web shell to vulnerable WordPress inst
 
 ## Usage
 ```bash
-python3 script.py --url http://target.com --file payload.php
+python3 script.py payload.php --url http://target.com
 ```
 
 ## How It Works
