@@ -1,10 +1,31 @@
 #!/bin/bash
 
-# Check if user has permission to access Docker
-if ! docker info >/dev/null 2>&1; then
-    echo "[!] Docker access denied. Attempting to start new shell with docker group..."
-    exec newgrp docker
+# Ensure Docker is installed
+if ! command -v docker >/dev/null 2>&1; then
+    echo "[!] Docker is not installed. Please install Docker first."
+    exit 1
 fi
+
+# Start Docker daemon if not running
+if ! docker info >/dev/null 2>&1; then
+    echo "[*] Docker daemon not running. Starting..."
+    sudo systemctl start docker
+    sleep 5
+    if ! docker info >/dev/null 2>&1; then
+        echo "[!] Failed to start Docker daemon. Exiting."
+        exit 1
+    fi
+fi
+
+# Add current user to docker group (if not already)
+if ! groups $USER | grep -qw docker; then
+    echo "[*] Adding $USER to docker group..."
+    sudo usermod -aG docker $USER
+    echo "[*] You may need to log out and log back in for group changes to take effect."
+fi
+
+# Switch to docker group for current session
+exec newgrp docker
 
 # Stop and remove old containers
 echo "[*] Removing old containers..."
