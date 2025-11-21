@@ -22,7 +22,10 @@ Make sure Docker is installed, then run:
 ```bash
 docker-compose up -d
 ```
-
+Or
+```
+docker compose up
+```
 ---
 
 # WordPress File Manager Unsafe Exploit
