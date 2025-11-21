@@ -37,13 +37,14 @@ Start the Vulnerable Environment (run.sh)
 run.sh
 ```
 What it does
-1. Stops and removes old Wordpress/MySQL containers
-2. Starts the MySQL container
-3. Waits 15 seconds for initialization
-4. Automatically imports wordpress.sqli if present
-5. Starts the WordPress container on port 9999
-6. Waits 15 seconds for WordPress to boot
-7. Copies the vulnereble plugin into the container
+1. Adds a new docker group if the tester has no permission to access Docker.
+2. Stops and removes old Wordpress/MySQL containers
+3. Starts the MySQL container
+4. Waits 15 seconds for initialization
+5. Automatically imports wordpress.sqli if present
+6. Starts the WordPress container on port 9999
+7. Waits 15 seconds for WordPress to boot
+8. Copies the vulnereble plugin into the container
 
 After the script completes, Wordpress is available at:
 ```
