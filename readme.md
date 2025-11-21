@@ -1,66 +1,96 @@
 # WordPress Arbitrary File Upload Vulnerable Environment
-This project sets up a vulnerable WordPress instance for testing an arbitrary file upload vulnerability in a custom plugin named **wp-file-manager-unsafe**.
 
-The purpose is to demonstrate how an insecure file upload feature can lead to remote code execution (RCE).
+This project sets up a vulnerable WordPress instance designed for testing an arbitrary file upload vulnerability in a custom plugin named **wp-file-manager-unsafe**.
+The goal is to demonstrate how insecure upload handling can lead to remote code execution (RCE).
 
----
+## Features
 
-##  Features
-- Vulnerable WordPress plugin with no file-type validation 
-- Allows uploading PHP files directly 
-- Uploaded files are stored in a web-accessible folder 
-- Easy to test RCE payloads 
-- Runs on Docker (WordPress + MySQL)
+- Vulnerable WordPress plugin with no file-type validation
+- Allows direct PHP file uploads
+- Uploaded files are stored in a web-accessible directory
+- Easy for testing RCE payloads
+- Fully containerized using Docker (WordPress + MySQL)
 
----
+## Project Structure
 
-##  Setup Instructions
+```
+.
+├── docker-compose.yml
+├── wp-content/
+│   └── plugins/
+│       └── wp-file-manager-unsafe/
+│           ├── wp-file-manager-unsafe.php
+│           └── uploads/
+├── script.py
+└── payload.php
+```
 
-### 1. Start the environment
+## Installation & Setup
+
+### 1. Start the vulnerable environment
+
 Make sure Docker is installed, then run:
-```bash
-sudo usermod -aG docker $USER
-```
-```bash
-sudo chmod 666 /var/run/docker.sock
-```
+
 ```bash
 docker-compose up -d
 ```
-Or
-```
-docker compose up
-```
----
 
-# WordPress File Manager Unsafe Exploit
+or:
 
-A simple Python script that uploads a PHP web shell to vulnerable WordPress installations using the `wp-file-manager-unsafe` plugin.
-
-## Usage
 ```bash
-python3 script.py payload.php --url http://target.com
+docker compose up -d
 ```
 
-## How It Works
-1. Uploads a PHP shell to the plugin's upload directory.
-2. Prints the final shell URL.
-3. Starts an interactive command mode so you can run commands remotely.
+WordPress will be available at:
+
+```
+http://localhost:9999
+```
+
+## Vulnerable Plugin Details
+
+The plugin named `wp-file-manager-unsafe` contains:
+
+- An insecure upload form
+- No MIME checking
+- No extension restrictions
+- Files stored inside:
+
+```
+/wp-content/plugins/wp-file-manager-unsafe/uploads/
+```
+
+This allows direct upload of `.php` files and enables RCE when accessed through the browser.
+
+## Exploit Script (script.py)
+
+A Python script that uploads a PHP web shell to the vulnerable WordPress installation.
+
+### Usage
+
+```bash
+python3 script.py --url http://TARGET --file payload.php
+```
+
+### What it does
+
+- Uploads `payload.php` to the plugin upload directory
+- Prints the final shell URL
+- Starts an interactive command mode that sends commands through the web shell
 
 ## Requirements
+
 - Python 3
-- requests library
+- `requests` package
 
 Install dependency:
+
 ```bash
 pip install requests
 ```
 
 ## Example
-```bash
-python3 script.py --url http://localhost:9999 --file payload.php
-```
 
-## Disclaimer
-For lab and educational use only.
-Only works with payload.php provided
+```bash
+python3 script.py payload.php --url http://localhost:9999
+```
