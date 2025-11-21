@@ -32,17 +32,25 @@ The environment allows testing of arbitrary file upload exploitation, remote cod
 
 ## Environment Setup
 
-Start the vulnerable environment:
-
+Start the Vulnerable Environment (run.sh)
 ```bash
-docker-compose up -d
+run.sh
+```
+What it does
+1. Stops and removes old Wordpress/MySQL containers
+2. Starts the MySQL container
+3. Waits 15 seconds for initialization
+4. Automatically imports wordpress.sqli if present
+5. Starts the WordPress container on port 9999
+6. Waits 15 seconds for WordPress to boot
+7. Copies the vulnereble plugin into the container
+
+After the script completes, Wordpress is available at:
+```
+http://localhost:9999/wp-admin
 ```
 
-or:
-
-```bash
-docker compose up -d
-```
+This repository includes a helper script to quickly start the vulnerable WordPress environment.
 
 Once running, WordPress is accessible at:
 
