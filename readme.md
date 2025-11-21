@@ -1,35 +1,38 @@
-# WordPress Arbitrary File Upload Vulnerable Environment
+# WordPress Arbitrary File Upload Vulnerable Environment  
+**(Customized Recreation of CVE-2020-25213 for Security Testing)**
 
-This project sets up a vulnerable WordPress instance designed for testing an arbitrary file upload vulnerability in a custom plugin named **wp-file-manager-unsafe**.
-The goal is to demonstrate how insecure upload handling can lead to remote code execution (RCE).
+This repository provides a controlled vulnerable WordPress environment designed to demonstrate an arbitrary file upload vulnerability.  
+The vulnerable behavior is implemented in a custom plugin named **wp-file-manager-unsafe**, which recreates the core insecure functionality seen in **WordPress File Manager Plugin – CVE-2020-25213**, adapted for clarity and ease of testing.
+
+The environment allows testing of arbitrary file upload exploitation, remote code execution (RCE), and exploit automation in a safe, isolated setup.
+
+---
+
+## Objectives
+
+- Recreate an insecure WordPress plugin in a simplified and controlled manner  
+- Demonstrate arbitrary file upload leading to RCE  
+- Provide a reproducible Docker-based vulnerable environment  
+- Supply an exploit script that automates upload and command execution  
+
+---
 
 ## Features
 
-- Vulnerable WordPress plugin with no file-type validation
-- Allows direct PHP file uploads
-- Uploaded files are stored in a web-accessible directory
-- Easy for testing RCE payloads
-- Fully containerized using Docker (WordPress + MySQL)
+- Insecure upload handler with:
+  - No MIME validation  
+  - No file extension checks  
+  - Publicly accessible upload directory  
+- Direct PHP payload upload and execution  
+- Fully containerized (WordPress + MySQL via Docker Compose)  
+- Supports `--url` for targeting remote or custom lab deployments  
+- Startup delays included to prevent race conditions during exploitation  
 
-## Project Structure
+---
 
-```
-.
-├── docker-compose.yml
-├── wp-content/
-│   └── plugins/
-│       └── wp-file-manager-unsafe/
-│           ├── wp-file-manager-unsafe.php
-│           └── uploads/
-├── script.py
-└── payload.php
-```
+## Environment Setup
 
-## Installation & Setup
-
-### 1. Start the vulnerable environment
-
-Make sure Docker is installed, then run:
+Start the vulnerable environment:
 
 ```bash
 docker-compose up -d
@@ -41,47 +44,64 @@ or:
 docker compose up -d
 ```
 
-WordPress will be available at:
+Once running, WordPress is accessible at:
 
 ```
 http://localhost:9999
 ```
 
-## Vulnerable Plugin Details
+*(Port can be modified inside `docker-compose.yml` if needed.)*
 
-The plugin named `wp-file-manager-unsafe` contains:
+---
 
-- An insecure upload form
-- No MIME checking
-- No extension restrictions
-- Files stored inside:
+## Vulnerable Plugin Overview
+
+The custom plugin `wp-file-manager-unsafe` intentionally enables:
+
+- File uploads without validation  
+- Lack of MIME verification  
+- Lack of extension filtering  
+- Direct write into a web-accessible directory:
 
 ```
 /wp-content/plugins/wp-file-manager-unsafe/uploads/
 ```
 
-This allows direct upload of `.php` files and enables RCE when accessed through the browser.
+This design allows uploading `.php` payloads, which can then be executed through the browser, resulting in remote code execution.
 
-## Exploit Script (script.py)
+---
 
-A Python script that uploads a PHP web shell to the vulnerable WordPress installation.
+## Exploit Script (`script.py`)
+
+The exploit script automates uploading a PHP payload and interacting with it.
 
 ### Usage
 
 ```bash
-python3 script.py --url http://TARGET --file payload.php
+python3 script.py payload.php --url http://TARGET
 ```
 
 ### What it does
 
-- Uploads `payload.php` to the plugin upload directory
-- Prints the final shell URL
-- Starts an interactive command mode that sends commands through the web shell
+- Uploads the specified payload  
+- Identifies and prints the upload location  
+- Displays the accessible shell URL  
+- Opens an interactive mode to execute commands through the uploaded payload  
+
+---
+
+## Example
+
+```bash
+python3 script.py payload.php --url http://localhost:9999
+```
+
+---
 
 ## Requirements
 
-- Python 3
-- `requests` package
+- Python 3  
+- `requests` library  
 
 Install dependency:
 
@@ -89,8 +109,9 @@ Install dependency:
 pip install requests
 ```
 
-## Example
+---
 
-```bash
-python3 script.py payload.php --url http://localhost:9999
-```
+## Disclaimer
+
+This environment is intended strictly for **authorized security testing, research, and educational use**.  
+Do not deploy it in production environments.

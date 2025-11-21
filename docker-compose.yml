@@ -1,18 +1,6 @@
 services:
-  wordpress:
-    image: drw00027/vuln-wp
-    container_name: wp-vuln
-    restart: always
-    ports:
-      - "9999:80"
-    environment:
-      WORDPRESS_DB_HOST: db
-      WORDPRESS_DB_USER: root
-      WORDPRESS_DB_PASSWORD: root
-      WORDPRESS_DB_NAME: wordpress
-
   db:
-    image: drw00027/vuln-mysql
+    image: drw00027/vuln-mysql:latest
     container_name: wp-db
     restart: always
     environment:
@@ -20,3 +8,12 @@ services:
       MYSQL_DATABASE: wordpress
     ports:
       - "3306:3306"
+
+  wordpress:
+    image: drw00027/vuln-wp:latest
+    container_name: wp-vuln
+    restart: always
+    depends_on:
+      - db
+    ports:
+      - "9999:80"
