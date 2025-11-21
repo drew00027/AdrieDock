@@ -32,6 +32,20 @@ The environment allows testing of arbitrary file upload exploitation, remote cod
 
 ## Environment Setup
 
+Pre-run Manual Steps for Automation / Permissions
+1. Add current user to Docker group
+```bash
+sudo usermod -aG docker $USER
+```
+2. Start Docker daemon if not running
+```bash
+sudo systemctl start docker
+```
+3. Activate Docker Group in current session
+```bash
+newgrp docker
+```
+
 Start the Vulnerable Environment (run.sh)
 ```bash
 run.sh
