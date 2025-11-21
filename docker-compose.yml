@@ -5,6 +5,11 @@ services:
     restart: always
     ports:
       - "9999:80"
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: root
+      WORDPRESS_DB_PASSWORD: root
+      WORDPRESS_DB_NAME: wordpress
 
   db:
     image: drw00027/vuln-mysql
@@ -15,7 +20,3 @@ services:
       MYSQL_DATABASE: wordpress
     ports:
       - "3306:3306"
-
-# Optional volumes — can be removed since images already contain data
-volumes:
-  db_data:
