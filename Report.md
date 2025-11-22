@@ -17,10 +17,15 @@
 8. Impact  
 9. Remediation  
 10. Appendix – Technical Steps & Execution Flow 
+    
     10.1 Environment Preperation 
+    
     10.2 Deploying Vulnerable Environment
+    
     10.3 Automated Exploitation Using `script.py`
+    
     10.4 Summary  
+    
 
 ---
 
